@@ -21,7 +21,9 @@ open class FeedbackViewController: UITableViewController {
 
     internal var wireframe: FeedbackWireframeProtocol!
 
-    private let cellFactories = [AnyCellFactory(UserEmailCell.self),
+    private let cellFactories = [AnyCellFactory(SourceCell.self),
+                                 AnyCellFactory(TargetCell.self),
+                                 AnyCellFactory(UserEmailCell.self),
                                  AnyCellFactory(TopicCell.self),
                                  AnyCellFactory(BodyCell.self),
                                  AnyCellFactory(AttachmentCell.self),

@@ -16,6 +16,8 @@ public class FeedbackItemsDataSource {
                 hidesUserEmailCell: Bool = true,
                 hidesAttachmentCell: Bool = false,
                 hidesAppInfoSection: Bool = false,
+                source: String? = nil,
+                target: String? = nil,
                 appName: String? = nil) {
         sections.append(FeedbackItemsSection(title: CTLocalizedString("CTFeedback.UserDetail"),
                                              items: [UserEmailItem(isHidden: hidesUserEmailCell)]))
@@ -28,7 +30,9 @@ public class FeedbackItemsDataSource {
         sections.append(FeedbackItemsSection(title: CTLocalizedString("CTFeedback.AppInfo"),
                                              items: [AppNameItem(isHidden: hidesAppInfoSection, name: appName),
                                                      AppVersionItem(isHidden: hidesAppInfoSection),
-                                                     AppBuildItem(isHidden: hidesAppInfoSection)]))
+                                                     AppBuildItem(isHidden: hidesAppInfoSection),
+                                                     SourceItem(title: "Source language", subtitle: source),
+                                                     TargetItem(title: "Target language", subtitle: target)]))
     }
 
     func section(at section: Int) -> FeedbackItemsSection {

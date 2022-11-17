@@ -18,6 +18,8 @@ struct FeedbackGenerator {
         let topic      = repository.item(of: TopicItem.self)?.selected
         let attachment = repository.item(of: AttachmentItem.self)?.media
         let body       = repository.item(of: BodyItem.self)?.bodyText ?? ""
+        let source     = repository.item(of: SourceItem.self)?.subtitle
+        let target     = repository.item(of: TargetItem.self)?.subtitle
 
         let subject = configuration.subject ?? generateSubject(appName: appName, topic: topic)
 
@@ -28,7 +30,9 @@ struct FeedbackGenerator {
                                    appName,
                                    appVersion,
                                    appBuild,
-                                   configuration.additionalDiagnosticContent)
+                                   configuration.additionalDiagnosticContent,
+                                   source,
+                                   target)
 
         return Feedback(email: email,
                         to: configuration.toRecipients,
@@ -51,7 +55,9 @@ struct FeedbackGenerator {
                                      appName: String,
                                      appVersion: String,
                                      appBuild: String,
-                                     additionalDiagnosticContent: String?) -> String {
+                                     additionalDiagnosticContent: String?,
+                                     source: String?,
+                                     target: String?) -> String {
         var platform = "iOS"
         #if targetEnvironment(macCatalyst)
             platform="macOS"
@@ -65,8 +71,11 @@ struct FeedbackGenerator {
  <tr><td>App:</td><td><b>%@</b></td></tr>
  <tr><td>Version:</td><td><b>%@</b></td></tr>
  <tr><td>Build:</td><td><b>%@</b></td></tr>
+ <tr><td>Source:</td><td><b>%@</b></td></tr>
+ <tr><td>Target:</td><td><b>%@</b></td></tr>
  </table>
  """
+        let undefined = "undefined"
         var content: String = String(format: format,
                                      body.replacingOccurrences(of: "\n", with: "<br />"),
                                      deviceName,
@@ -74,7 +83,9 @@ struct FeedbackGenerator {
                                      systemVersion,
                                      appName,
                                      appVersion,
-                                     appBuild)
+                                     appBuild,
+                                     source ?? undefined,
+                                     target ?? undefined)
         if let additional = additionalDiagnosticContent { content.append(additional) }
         return content
     }
@@ -85,20 +96,25 @@ struct FeedbackGenerator {
                                        appName: String,
                                        appVersion: String,
                                        appBuild: String,
-                                       additionalDiagnosticContent: String?) -> String {
+                                       additionalDiagnosticContent: String?,
+                                       source: String?,
+                                       target: String?) -> String {
         var platform = "iOS"
         #if targetEnvironment(macCatalyst)
             platform="macOS"
         #endif
+        let undefined = "undefined"
         var content: String
-            = String(format: "%@\n\n\nDevice: %@\n%@: %@\nApp: %@\nVersion: %@\nBuild: %@",
+            = String(format: "%@\n\n\nDevice: %@\n%@: %@\nApp: %@\nVersion: %@\nBuild: %@\nSource: %@\nTarget: %@",
                      body,
                      deviceName,
                      platform,
                      systemVersion,
                      appName,
                      appVersion,
-                     appBuild)
+                     appBuild,
+                     source ?? undefined,
+                     target ?? undefined)
         if let additional = additionalDiagnosticContent { content.append(additional) }
         return content
     }
