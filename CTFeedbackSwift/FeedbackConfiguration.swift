@@ -27,6 +27,8 @@ public class FeedbackConfiguration {
                 hidesAttachmentCell: Bool = false,
                 hidesAppInfoSection: Bool = false,
                 usesHTML: Bool = false,
+                source: String? = nil,
+                target: String? = nil,
                 appName: String? = nil) {
         self.subject = subject
         self.additionalDiagnosticContent = additionalDiagnosticContent
@@ -38,6 +40,8 @@ public class FeedbackConfiguration {
                                                   hidesUserEmailCell: hidesUserEmailCell,
                                                   hidesAttachmentCell: hidesAttachmentCell,
                                                   hidesAppInfoSection: hidesAppInfoSection,
+                                                  source: source,
+                                                  target: target,
                                                   appName: appName)
     }
 }

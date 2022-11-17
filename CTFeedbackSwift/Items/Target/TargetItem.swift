@@ -6,7 +6,7 @@
 //  Copyright © 2022 CAPH TECH. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public struct TargetItem: FeedbackItemProtocol {
 
